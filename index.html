@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malakor Game Launcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="launcher-window">
+        <!-- Window Controls -->
+        <div class="window-controls">
+            <button id="minimize-btn" class="control-btn minimize-btn">&minus;</button>
+            <button id="close-btn" class="control-btn close-btn">&times;</button>
+        </div>
+
+        <!-- Optimize Mode Overlay -->
+        <div id="optimize-overlay" class="optimize-overlay hidden">
+            <div class="optimize-content">
+                <div class="optimize-icon">⚡</div>
+                <div class="optimize-title">OPTIMIZE MODE</div>
+                <div class="optimize-desc">Launcher is in low-power mode while in-game.</div>
+                <button id="optimize-stop-btn" class="optimize-stop-btn">⏹</button>
+            </div>
+        </div>
+
+        <!-- Launcher Main Layout -->
+        <div id="launcher-section" class="launcher-layout">
+            <!-- Left Side: Controls & Info -->
+            <div class="launcher-sidebar">
+                <div class="logo-area">
+                    <div class="logo-row">
+                        <img src="/assests/hshm.png" alt="Logo" class="main-logo-img">
+                    </div>
+                    <div id="data-path" class="data-path-text">Data: Loading...</div>
+                </div>
+
+                <div class="status-area">
+                    <div class="status-label-row">
+                        <div id="status-text" class="status-label">READY TO PLAY</div>
+                        <div id="server-status-text" class="server-status-text offline-text">Server Offline</div>
+                    </div>
+                    <div id="update-label" class="update-label hidden">Checking for updates...</div>
+                    <div class="progress-track">
+                        <div id="progress-fill" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Button Grid -->
+                <div class="button-grid">
+                    <button id="play-btn" class="grid-btn btn-green full-grid-width">Start Game</button>
+                    
+                    <button id="select-game-btn" class="grid-btn btn-gray hidden">Select Game</button>
+                    <button id="fix-ca-btn" class="grid-btn btn-orange full-grid-width">Fix CA</button>
+                    
+                    <button id="change-settings" class="grid-btn btn-cyan full-grid-width">Settings</button>
+                </div>
+                
+                <div class="version-tag">v2.1.5</div>
+            </div>
+
+            <!-- Right Side: Character & Logs -->
+            <div class="launcher-main">
+                <div class="character-container">
+                    <img src="https://raw.githubusercontent.com/malakorreal/hsh-malakor-launcherv2/main/public/character_placeholder.png" alt="" class="character-img" onerror="this.style.display='none'">
+                </div>
+
+                <div class="console-overlay">
+                    <div id="logs-container" class="flat-console">
+                        <div class="log-entry">[SYSTEM] Launcher initialized...</div>
+                    </div>
+                </div>
+
+                <div class="credits-text">
+                    @COPYRIGHT MALAKOR (LAUNCHER)
+                </div>
+            </div>
+        </div>
+
+        <!-- Setup Section (Overlay) -->
+        <div id="setup-section" class="overlay-section hidden">
+            <div class="flat-card">
+                <div class="card-header">
+                    <h2>INITIAL SETUP</h2>
+                    <div class="header-line"></div>
+                </div>
+                <p>Please select your <strong>HSHO.exe</strong> file to begin.</p>
+
+                <div id="auto-search-status" class="auto-search-status searching-status hidden">
+                    <div class="search-status-left">
+                        <div id="search-spinner" class="search-spinner"></div>
+                        <span id="search-status-text" class="search-status-text">Initializing...</span>
+                    </div>
+                    <button id="auto-search-again-btn" class="btn-tiny hidden">RE-SCAN</button>
+                </div>
+
+                <div id="selected-path-display" class="path-display">No file selected</div>
+                <div id="path-match-hint" class="path-match-hint hidden"></div>
+                <div class="card-actions">
+                    <button id="setup-select-btn" class="btn-primary">BROWSE FILE</button>
+                    <button id="save-config-btn" class="btn-primary btn-green-alt">SAVE CONFIG</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repair Modal (Overlay) -->
+        <div id="fix-modal" class="overlay-section hidden">
+            <div class="flat-card">
+                <div class="card-header">
+                    <h3>SYSTEM REPAIR</h3>
+                    <div class="header-line line-orange"></div>
+                </div>
+                <p>This will reset SSL Certificates, Hosts, and Firewall rules to fix connection issues.</p>
+                <div class="modal-footer">
+                    <button id="confirm-fix-btn" class="btn-orange">START REPAIR</button>
+                    <button id="cancel-fix-btn" class="btn-gray">CANCEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Update Modal (Overlay) -->
+        <div id="update-modal" class="overlay-section hidden">
+            <div class="flat-card">
+                <div class="card-header">
+                    <h2 id="update-modal-title">UPDATE AVAILABLE</h2>
+                    <div class="header-line"></div>
+                </div>
+                <div class="update-content">
+                    <p id="update-modal-message">A new version is available for download.</p>
+                    <div id="update-modal-details" class="update-details"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="confirm-update-btn" class="btn-primary btn-green-alt">UPDATE NOW</button>
+                    <button id="cancel-update-btn" class="btn-gray">LATER</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discord Auth Overlay (Initial Screen) -->
+        <div id="auth-section" class="overlay-section">
+            <div class="flat-card auth-card">
+                <div class="card-header">
+                    <h2>AUTHENTICATION</h2>
+                    <div class="header-line line-discord"></div>
+                </div>
+                <p>Please login with Discord to verify your access to Malakor Launcher.</p>
+                
+                <div id="auth-user-info" class="auth-user-info hidden">
+                    <img id="discord-avatar" src="" alt="Avatar" class="discord-avatar">
+                    <div class="user-details">
+                        <div id="discord-name" class="discord-name">Username</div>
+                        <div id="auth-status-text" class="auth-status-text">Checking permission...</div>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <button id="discord-login-btn" class="btn-primary btn-discord">LOGIN WITH DISCORD</button>
+                    <button id="auth-retry-btn" class="btn-primary btn-gray hidden">RETRY LOGIN</button>
+                </div>
+                
+                <div id="auth-error-msg" class="error-text hidden">You don't have permission to access.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden File Input -->
+    <input type="file" id="gamePathFile" accept=".exe" style="display: none;">
+
+    <!-- Notification Toast -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "malakorproxy",
+  "version": "2.1.5",
+  "description": "Game Launcher for HSHO",
+  "main": "main.js",
+  "author": "Malakor",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.98.0",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.13.6",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "electron-updater": "^6.8.3",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "node-forge": "^1.3.3",
+    "open": "^8.4.2",
+    "sqlite3": "^5.1.7"
+  }
+}
